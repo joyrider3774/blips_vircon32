@@ -11,6 +11,7 @@
 #include "fonts/font2_30.h"
 #include "CAudio.h"
 
+#define levelLocksSavePosition 100
 
 void UnLoadGraphics()
 {
@@ -84,95 +85,22 @@ void loadFonts()
 
 void SaveUnlockData()
 {
-	// FILE *Fp;
-	// int Teller;
-	// int Filename[FILENAME_MAX];
-	// int LevelHash[4];
-	// int HashBuffer[64];
-	// int CheckSum = 0;
-	// LevelHash[0] = HashTable[UnlockedLevels-1] ;
-	// LevelHash[1] = HashTable[UnlockedLevels];
-	// LevelHash[2] = HashTable[UnlockedLevels+1];
-	// LevelHash[3] = HashTable[UnlockedLevels+2];
-	// sprintf(Filename,"./%s.dat",LevelPackFileName);
-	// for (Teller=0;Teller<4;Teller++)
-	// 	LevelHash[Teller] = LevelHash[Teller] ^ LevelPackFileName[strlen(LevelPackFileName)-1];
-	// for (Teller=0;Teller<(size_t)strlen(LevelPackFileName);Teller++)
-	// 	LevelHash[Teller%4] = LevelHash[Teller%4] ^ LevelPackFileName[Teller];
-	// LevelHash[0] = LevelHash[0] ^ LevelHash[2];
-	// LevelHash[1] = LevelHash[1] ^ LevelHash[0];
-	// LevelHash[2] = LevelHash[2] ^ LevelHash[3];
-	// LevelHash[3] = LevelHash[3] ^ LevelHash[2];
-	// for (Teller=0;Teller<64;Teller++)
-	// 	if ((Teller+1) % 16 == 0)
-	// 	{
-	// 		HashBuffer[Teller] = LevelHash[(Teller)/16];
-	// 		CheckSum += HashBuffer[Teller];
-	// 	}
-	// 	else
-	// 	{
-	// 		HashBuffer[Teller] = rand() % 256;
-	// 		CheckSum += HashBuffer[Teller];
-	// 	}
-	// CheckSum = CheckSum ^ 50;
-	// Fp = fopen(Filename,"wb");
-	// if (Fp)
-	// {
-	// 	fwrite(HashBuffer,1,64,Fp);
-	// 	fwrite(&CheckSum,sizeof(int),1,Fp);
-	// 	fclose(Fp);
-	// }
+	if(card_is_connected())
+		if(card_is_empty() || card_signature_matches( &GameSignature ))
+		{
+			card_write_signature(&GameSignature);
+			card_write_data(&UnlockedLevels, levelLocksSavePosition, sizeof (UnlockedLevels));
+		}
 }
 
 void LoadUnlockData()
 {
-	// FILE *Fp;
-	// int LevelHash[4];
-	// int Teller=0;
-	// int HashBuffer[64];
-	// int Filename[FILENAME_MAX];
-	// sprintf(Filename,"./%s.dat",LevelPackFileName);
-	// Fp = fopen(Filename,"rb");
-	// int CheckSum,ValidCheckSum=0;
-	// if (Fp)
-	// {
-	// 	fflush(Fp);
-	// 	fread(HashBuffer,1,64,Fp);
-	// 	fread(&CheckSum,sizeof(int),1,Fp);
-	// 	fclose(Fp);
-	// 	for (Teller = 0 ;Teller<64;Teller++)
-	// 	{
-	// 		ValidCheckSum += HashBuffer[Teller];
-	// 		if ((Teller+1)%16 == 0)
-	// 			LevelHash[Teller/16] = HashBuffer[Teller];
-	// 	}
-	// 	CheckSum = CheckSum ^ 50;
-	// 	if (CheckSum == ValidCheckSum)
-	// 	{
-	// 		LevelHash[3] = LevelHash[3] ^ LevelHash[2];
-	// 		LevelHash[2] = LevelHash[2] ^ LevelHash[3];
-	// 		LevelHash[1] = LevelHash[1] ^ LevelHash[0];
-	// 		LevelHash[0] = LevelHash[0] ^ LevelHash[2];
-	// 		for (Teller=0;Teller<(int)strlen(LevelPackFileName);Teller++)
-	// 			LevelHash[Teller%4] = LevelHash[Teller%4] ^ LevelPackFileName[Teller];
-	// 		for (Teller=0;Teller<4;Teller++)
-	// 			LevelHash[Teller] = LevelHash[Teller] ^ LevelPackFileName[strlen(LevelPackFileName)-1];
-
-	// 		Teller=0;
-	// 		while (LevelHash[0] != HashTable[Teller] || LevelHash[1] != HashTable[Teller+1] || 	LevelHash[2] != HashTable[Teller+2] || LevelHash[3] != HashTable[Teller+3] && Teller+3 < 1004)
-	// 			Teller++;
-	// 		if (Teller < InstalledLevels)
-	// 			UnlockedLevels = Teller+1;
-	// 		else
-	// 			UnlockedLevels = 1;
-	// 	}
-	// 	else
-	// 		UnlockedLevels = 1;
-	// }
-	// else
-	//  	UnlockedLevels = 1;
 	UnlockedLevels = 1;
-
+	if(card_is_connected())
+		if(card_signature_matches(&GameSignature))
+		{
+			card_read_data(&UnlockedLevels, levelLocksSavePosition, sizeof (UnlockedLevels));			
+		}
 }
 
 bool AskQuestion(int *Msg)

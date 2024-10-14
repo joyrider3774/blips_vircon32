@@ -4,11 +4,13 @@
 #include "libs/TextFonts/textfont.h"
 #include "Texture.h"
 #include "Defines.h"
-
+#include "memcard.h"
 
 bool GlobalSoundEnabled = true;
 int[NrOfSounds] Sounds;
 int Music;
+
+game_signature GameSignature;
 
 Texture* IMGBackground=NULL,IMGFloor=NULL,IMGPlayer=NULL,IMGBox=NULL,IMGEmpty=NULL,IMGTitleScreen=NULL,IMGWall=NULL,
         IMGIntro1=NULL,IMGIntro2=NULL,IMGIntro3=NULL,IMGBomb=NULL,IMGDiamond=NULL,IMGExplosion=NULL,IMGGrid=NULL;

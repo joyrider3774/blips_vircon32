@@ -13,6 +13,8 @@
 
 void main()
 {
+	memset( &GameSignature, 0, sizeof( game_signature ) );
+	strcpy( GameSignature, "Blips_V1" );
 	MenuBoxColor = make_color_rgb(75,138,158);
 	MenuBoxBorderColor = make_color_rgb(2,66,87);
 	MenuTextColor = make_color_rgb(2,66,87);
