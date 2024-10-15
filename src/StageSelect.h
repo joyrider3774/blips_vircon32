@@ -57,6 +57,7 @@ void StageSelect()
         if(Input->JoystickHeld[BUT_B])
         {
             GameState= GSTitleScreen;
+			CAudio_PlaySound(Sounds[SND_BACK],0);
         }
 		
 		//BUT_A

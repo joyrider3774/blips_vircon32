@@ -63,6 +63,12 @@ int* filenameToAudio(int* FileName)
 		*result = 6;
 	}
 
+	if (strcmp(FileName, "menuback") == 0)
+	{
+		result = (int*) malloc(sizeof(int));
+		*result = 7;
+	}
+
 	
 	return result;
 }

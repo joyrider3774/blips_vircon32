@@ -53,6 +53,7 @@ void Game()
         if(Input->JoystickHeld[BUT_B])
         {
 	        GameState = GSStageSelect;
+			CAudio_PlaySound(Sounds[SND_BACK],0);
         }
 
         //BUT_START

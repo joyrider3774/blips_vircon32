@@ -31,6 +31,7 @@ void Credits()
 		if(Input->JoystickHeld[BUT_X] || Input->JoystickHeld[BUT_Y] || Input->JoystickHeld[BUT_A] || Input->JoystickHeld[BUT_B]|| Input->JoystickHeld[BUT_START])
         {
             GameState=GSTitleScreen;
+			CAudio_PlaySound(Sounds[SND_BACK],0);
         }
 
 		set_multiply_color(MenuBoxColor);

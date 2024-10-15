@@ -20,5 +20,6 @@
 		<sound path="obj/menu.vsnd" />
 		<sound path="obj/select.vsnd" />
 		<sound path="obj/stageend.vsnd" />
+		<sound path="obj/menuback.vsnd" />		
     </sounds>
 </rom-definition>

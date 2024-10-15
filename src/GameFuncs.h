@@ -44,6 +44,7 @@ void LoadSounds()
 	Sounds[SND_STAGEEND] = CAudio_LoadSound("stageend");
 	Sounds[SND_EXPLODE] = CAudio_LoadSound("explode");
 	Sounds[SND_COLLECT] = CAudio_LoadSound("collect");
+	Sounds[SND_BACK] = CAudio_LoadSound("menuback");
 }
 
 void UnloadSounds()
