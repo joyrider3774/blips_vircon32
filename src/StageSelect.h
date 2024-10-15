@@ -88,38 +88,54 @@ void StageSelect()
 		//BUT_L
         if (CInput_Ready(Input) && (Input->JoystickHeld[BUT_L]))
         {
-            SelectedLevel -= 5;
-            if (SelectedLevel < 1)
-            	SelectedLevel = 1;
-            CWorldParts_Load(WorldParts, SelectedLevel-1);
-            CInput_Delay(Input);
+			if(SelectedLevel != 1)
+			{	
+				SelectedLevel -= 5;
+				if (SelectedLevel < 1)
+					SelectedLevel = 1;
+				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CInput_Delay(Input);
+			}
         }
 		//BUT_R
         if (CInput_Ready(Input) && ( Input->JoystickHeld[BUT_R]))
         {
-            SelectedLevel +=5;
-            if (SelectedLevel > InstalledLevels)
-            	SelectedLevel = InstalledLevels;
-            CWorldParts_Load(WorldParts, SelectedLevel-1);
-            CInput_Delay(Input);
+			if(SelectedLevel != InstalledLevels)
+			{
+				SelectedLevel +=5;
+				if (SelectedLevel > InstalledLevels)
+					SelectedLevel = InstalledLevels;
+				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CInput_Delay(Input);
+			}
         }
 		//BUT_LEFT
         if (CInput_Ready(Input) && (Input->JoystickHeld[BUT_LEFT]))
         {
-            SelectedLevel--;
-            if (SelectedLevel < 1)
-            	SelectedLevel = 1;
-            CWorldParts_Load(WorldParts, SelectedLevel-1);
-            CInput_Delay(Input);
+			if(SelectedLevel != 1)
+			{
+				SelectedLevel--;
+				if (SelectedLevel < 1)
+					SelectedLevel = 1;
+				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CInput_Delay(Input);
+			}
         }
 		//BUT_RIGHT
         if (CInput_Ready(Input) && ( Input->JoystickHeld[BUT_RIGHT]))
         {
-            SelectedLevel++;
-            if (SelectedLevel > InstalledLevels)
-                SelectedLevel = InstalledLevels;
-            CWorldParts_Load(WorldParts, SelectedLevel-1);
-            CInput_Delay(Input);
+			if(SelectedLevel != InstalledLevels)
+			{
+				SelectedLevel++;
+				if (SelectedLevel > InstalledLevels)
+					SelectedLevel = InstalledLevels;
+				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CInput_Delay(Input);
+			}
         }
 		end_frame();
 	}
