@@ -52,24 +52,33 @@ void Game()
         
         if(Input->JoystickHeld[BUT_B])
         {
-	        GameState = GSStageSelect;
-			CAudio_PlaySound(Sounds[SND_BACK],0);
+			if (AskQuestion("Are you sure you want to return to the stage selector?\n\nPress (A) to confirm (X) to Cancel"))
+			{
+	        	GameState = GSStageSelect;
+				CAudio_PlaySound(Sounds[SND_BACK],0);
+			}
+			CInput_Delay(Input);
+			CInput_Reset(Input);
         }
 
         //BUT_START
         if(CInput_Ready(Input) && (Input->JoystickHeld[BUT_X]))
         {
-            CWorldParts_Load(WorldParts, SelectedLevel-1);
-			//need to find player again
-			for (teller=0;teller<WorldParts->ItemCount;teller++)
+			if (AskQuestion("Are you sure you want to reload the level?\n\nPress (A) to confirm (X) to Cancel"))
 			{
-				if (WorldParts->Items[teller]->Type == IDPlayer)
+				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				//need to find player again
+				for (teller=0;teller<WorldParts->ItemCount;teller++)
 				{
-					Player = WorldParts->Items[teller];
-					break;
+					if (WorldParts->Items[teller]->Type == IDPlayer)
+					{
+						Player = WorldParts->Items[teller];
+						break;
+					}
 				}
 			}
-            CInput_Delay(Input);
+			CInput_Reset(Input);
+			CInput_Delay(Input);
         }
  
         //BUT_LEFT

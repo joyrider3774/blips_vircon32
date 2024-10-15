@@ -106,6 +106,7 @@ void LoadUnlockData()
 
 bool AskQuestion(int *Msg)
 {
+	bool Result = false;
 	CInput *Input = CInput_Create(InputDelay);
 	while(CInput_HasInput(Input))
 		end_frame();
@@ -126,12 +127,14 @@ bool AskQuestion(int *Msg)
 		}
 		//BUT_A
 		if (Input->JoystickHeld[BUT_A] || Input->JoystickHeld[BUT_START])
-			return true;
-		else
-			return false;
+			Result = true;
 
 	}
+	//only return if no inputs are left
+	while(CInput_HasInput(Input))
+		end_frame();
 	CInput_Destroy(Input);
+	return Result;
 }
 
 void PrintForm(int *msg)
@@ -153,7 +156,9 @@ void PrintForm(int *msg)
         CInput_Update(Input);
         end_frame();
     }
-
+	//only return if no inputs are left
+	while(CInput_HasInput(Input))
+		end_frame();
 	CInput_Destroy(Input);
 }
 
