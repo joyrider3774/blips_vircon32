@@ -49,7 +49,7 @@ Music was made by donskeeto
 - dynamite: [GUI Icons by Rexard](https://www.gamedevmarket.net/asset/gui-icons-8656) - I Payed for this asset do not reuse !
 
 ### Sound
-- stageend.wav: [game music stingers and ui sfx pack 2](https://www.gamedevmarket.net/asset/game-music-stingers-and-ui-sfx-pack-2/) - I Payed Asset do not reuse !
+- stageend.wav: [game music stingers and ui sfx pack 2](https://www.gamedevmarket.net/asset/game-music-stingers-and-ui-sfx-pack-2/) - I Payed for this Asset do not reuse !
 
 
 
