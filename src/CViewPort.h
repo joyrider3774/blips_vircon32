@@ -13,47 +13,49 @@ struct CViewPort
 CViewPort* CViewPort_Create(int MinX,int MinY, int MaxX,int MaxY,int MinX2,int MinY2,int MaxX2,int MaxY2)
 {
 	CViewPort* Result = (CViewPort*) malloc(sizeof(CViewPort));
-
-	if ((MinX < NrOfCols) && (MinX >= 0) && (MaxX + 1 < NrOfCols) && (MaxX >= 0) &&
-		(MinY < NrOfRows) && (MinY >= 0) && (MaxY + 1 < NrOfRows) && (MaxY >= 0))
+	if (Result)
 	{
-		Result->VPMinX = MinX;
-		Result->VPMinY = MinY;
-		Result->VPMaxX = MaxX + 1;
-		Result->VPMaxY = MaxY + 1;
-		Result->MinScreenX = Result->VPMinX * TileWidth;
-		Result->MinScreenY = Result->VPMinY * TileHeight;
-		Result->MaxScreenX = Result->VPMaxX * TileHeight;
-		Result->MaxScreenY = Result->VPMaxY * TileWidth;
+		if ((MinX < NrOfCols) && (MinX >= 0) && (MaxX + 1 < NrOfCols) && (MaxX >= 0) &&
+			(MinY < NrOfRows) && (MinY >= 0) && (MaxY + 1 < NrOfRows) && (MaxY >= 0))
+		{
+			Result->VPMinX = MinX;
+			Result->VPMinY = MinY;
+			Result->VPMaxX = MaxX + 1;
+			Result->VPMaxY = MaxY + 1;
+			Result->MinScreenX = Result->VPMinX * TileWidth;
+			Result->MinScreenY = Result->VPMinY * TileHeight;
+			Result->MaxScreenX = Result->VPMaxX * TileHeight;
+			Result->MaxScreenY = Result->VPMaxY * TileWidth;
+		}
+		else
+		{
+			Result->VPMinX = 0;
+			Result->VPMinY = 0;
+			Result->VPMaxX = NrOfColsVisible;
+			Result->VPMaxY = NrOfRowsVisible;
+			Result->MinScreenX = 0;
+			Result->MinScreenY = 0;
+			Result->MaxScreenX = WINDOW_WIDTH;
+			Result->MaxScreenY = WINDOW_HEIGHT;
+		}
+		if ((MinX2 < NrOfCols) && (MinX2 >= 0) && (MaxX2 + 1 < NrOfCols) && (MaxX2 >= 0) &&
+			(MinY2 < NrOfRows) && (MinY2 >= 0) && (MaxY2 + 1 < NrOfRows) && (MaxY2 >= 0))
+		{
+			Result->VPLimitMinX = MinX2;
+			Result->VPLimitMinY = MinY2;
+			Result->VPLimitMaxX = MaxX2 + 1; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
+			Result->VPLimitMaxY = MaxY2 + 1; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
+		}
+		else
+		{
+			Result->VPLimitMinX = 0;
+			Result->VPLimitMinY = 0;
+			Result->VPLimitMaxX = NrOfCols; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
+			Result->VPLimitMaxY = NrOfRows; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
+		}
+		Result->Width = Result->VPMaxX - Result->VPMinX;
+		Result->Height = Result->VPMaxY - Result->VPMinY;
 	}
-	else
-	{
-		Result->VPMinX = 0;
-		Result->VPMinY = 0;
-		Result->VPMaxX = NrOfColsVisible;
-		Result->VPMaxY = NrOfRowsVisible;
-		Result->MinScreenX = 0;
-		Result->MinScreenY = 0;
-		Result->MaxScreenX = WINDOW_WIDTH;
-		Result->MaxScreenY = WINDOW_HEIGHT;
-	}
-	if ((MinX2 < NrOfCols) && (MinX2 >= 0) && (MaxX2 +1< NrOfCols) && (MaxX2 >= 0) &&
-		(MinY2 < NrOfRows) && (MinY2 >= 0) && (MaxY2 +1< NrOfRows) && (MaxY2 >= 0))
-	{
-		Result->VPLimitMinX = MinX2;
-		Result->VPLimitMinY = MinY2;
-		Result->VPLimitMaxX = MaxX2+1; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
-		Result->VPLimitMaxY = MaxY2+1; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
-	}
-	else
-	{
-		Result->VPLimitMinX = 0;
-		Result->VPLimitMinY = 0;
-		Result->VPLimitMaxX = NrOfCols; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
-		Result->VPLimitMaxY = NrOfRows; //needs to be one more, need to get max element + 1 as we need to get the ending of the previous tile
-	}
-	Result->Width = Result->VPMaxX - Result->VPMinX;
-	Result->Height = Result->VPMaxY - Result->VPMinY;
 	return(Result);
 }
 

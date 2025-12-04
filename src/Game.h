@@ -25,8 +25,9 @@ void Game()
 	int[500] Text;
 	int teller;
 	int Time=0;
-	CWorldPart *Player=NULL;
 	bool ResetViewPort=false;
+	CWorldPart *Player=NULL;
+	CWorldPart *Player2 = NULL;
 	for (teller=0;teller<WorldParts->ItemCount;teller++)
 	{
 		if (WorldParts->Items[teller]->Type == IDPlayer)
@@ -34,12 +35,16 @@ void Game()
 			Player = WorldParts->Items[teller];
 			break;
 		}
+		if (WorldParts->Items[teller]->Type == IDPlayer2)
+		{
+			Player2 = WorldParts->Items[teller];
+		}
 	}
 	//should never happen
-	if(!Player)
+	if(!Player && !Player2)
 	{
-		Player = CWorldPart_Create(0,0,IDPlayer);
-		CWorldParts_Add(WorldParts, Player);
+		Player = CWorldPart_Create(0,0, IDPlayer);
+		CWorldParts_Add(WorldParts,Player);
 	}
 	CInput *Input = CInput_Create(InputDelay);
 	while(CInput_HasInput(Input))
@@ -55,7 +60,6 @@ void Game()
 			if (AskQuestion("Are you sure you want to return to the stage selector?\n\nPress (A) to confirm (X) to Cancel"))
 			{
 	        	GameState = GSStageSelect;
-				CAudio_PlaySound(Sounds[SND_BACK],0);
 			}
 			CInput_Delay(Input);
 			CInput_Reset(Input);
@@ -66,16 +70,7 @@ void Game()
         {
 			if (AskQuestion("Are you sure you want to reload the level?\n\nPress (A) to confirm (X) to Cancel"))
 			{
-				CWorldParts_Load(WorldParts, SelectedLevel-1);
-				//need to find player again
-				for (teller=0;teller<WorldParts->ItemCount;teller++)
-				{
-					if (WorldParts->Items[teller]->Type == IDPlayer)
-					{
-						Player = WorldParts->Items[teller];
-						break;
-					}
-				}
+				CWorldParts_Load(WorldParts,SelectedLevelPack, SelectedLevel-1);
 			}
 			CInput_Reset(Input);
 			CInput_Delay(Input);
@@ -86,12 +81,13 @@ void Game()
         {
             CInput_Delay(Input);
         }
+
         //BUT_RIGHT
         if (CInput_Ready(Input) && (Input->JoystickHeld[BUT_RIGHT]))
         {
-
             CInput_Delay(Input);
         }
+
 		//BUT_DOWN
         if (CInput_Ready(Input) && Input->JoystickHeld[BUT_DOWN])
         {
@@ -132,32 +128,37 @@ void Game()
                     ResetViewPort = false;
                 }
             }
-            //BUT_Y
-            if (!Player->IsMoving && !Player->IsDeath && !(Input->JoystickHeld[BUT_Y]))
+
+            if (!WorldParts->Player->IsMoving && (((WorldParts->Player1) && !WorldParts->Player1->IsDeath) || ((WorldParts->Player2) && !WorldParts->Player2->IsDeath)) && !(Input->JoystickHeld[BUT_Y]))
             {
+				if (CInput_Ready(Input) && Input->JoystickHeld[BUT_A])
+				{
+					CWorldParts_SwitchPlayers(WorldParts);
+					CInput_Delay(Input);
+				}
 				//BUT_DOWN
                 //move down
                 if (Input->JoystickHeld[BUT_DOWN])
                 {
-                    CWorldPart_MoveTo(Player, Player->PlayFieldX,Player->PlayFieldY+1,false);
+                    CWorldPart_MoveTo(WorldParts->Player, WorldParts->Player->PlayFieldX,WorldParts->Player->PlayFieldY+1,false);
                 }
 				//BUT_UP
                 //move up
                 if (Input->JoystickHeld[BUT_UP])
                 {
-                        CWorldPart_MoveTo(Player, Player->PlayFieldX,Player->PlayFieldY-1,false);
+                        CWorldPart_MoveTo(WorldParts->Player, WorldParts->Player->PlayFieldX,WorldParts->Player->PlayFieldY-1,false);
                 }
 				//BUT_LEFT
                 //move left
                 if (Input->JoystickHeld[BUT_LEFT])
                 {
-                        CWorldPart_MoveTo(Player, Player->PlayFieldX-1,Player->PlayFieldY,false);
+                        CWorldPart_MoveTo(WorldParts->Player, WorldParts->Player->PlayFieldX-1,WorldParts->Player->PlayFieldY,false);
                 }
 				//BUT_RIGHT
                 //move right
                 if (Input->JoystickHeld[BUT_RIGHT])
                 {
-                        CWorldPart_MoveTo(Player, Player->PlayFieldX+1,Player->PlayFieldY,false);
+                        CWorldPart_MoveTo(WorldParts->Player, WorldParts->Player->PlayFieldX+1,WorldParts->Player->PlayFieldY,false);
                 }
 
             }
@@ -170,7 +171,7 @@ void Game()
         CWorldParts_Move(WorldParts);
 
 		end_frame();
-        if (Player->IsDeath)
+        if (((WorldParts->Player1) && WorldParts->Player1->IsDeath) || ((WorldParts->Player2) && WorldParts->Player2->IsDeath))
         {
             ExplosionsFound =false;
             for(teller=0;teller<WorldParts->ItemCount;teller++)
@@ -186,24 +187,8 @@ void Game()
 			{
 				if (AskQuestion("Too bad you died !\nDo you want to try again?\n\n(A) Try Again (X) Level Selector"))
 				{
-					CWorldParts_Load(WorldParts, SelectedLevel-1);
-					for (teller=0;teller<WorldParts->ItemCount;teller++)
-					{
-						if (WorldParts->Items[teller]->Type == IDPlayer)
-						{
-							Player = WorldParts->Items[teller];
-							break;
-						}
+					CWorldParts_Load(WorldParts,SelectedLevelPack, SelectedLevel-1);					
 					}
-					
-					//should never happen
-					if(!Player)
-					{
-						Player = CWorldPart_Create(0,0,IDPlayer);
-						CWorldParts_Add(WorldParts, Player);
-					}
-					CInput_Reset(Input);
-				}
 				else
 					GameState = GSStageSelect;
 

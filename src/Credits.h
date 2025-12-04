@@ -15,12 +15,16 @@ void Credits()
 	//hardcode for now
 	int *LevelPackCreator = (int*) malloc(sizeof(int)* 21);
 	strcpy(LevelPackCreator, "Bryant Brownell");
-	int *Tekst = (int*) malloc(sizeof(int)* 500);
-	strcpy(Tekst,"Blips was created by\nWillems Davy - Willems Soft 2008-2024.\nhttps://joyrider3774.itch.io\n\nLevelpack ");
-	strcat(Tekst, LevelPackName);
-	strcat(Tekst," was created\nby ");
-	strcat(Tekst, LevelPackCreator);
-	strcat(Tekst, ".");
+	int *Tekst1 = (int*) malloc(sizeof(int)* 500);
+	int *Tekst2 = (int*) malloc(sizeof(int)* 500);
+	int *Tekst3 = (int*) malloc(sizeof(int)* 500);
+	strcpy(Tekst1,"Blips was created by Willems Davy (2008-2025).\nhttps://joyrider3774.itch.io");
+	strcpy(Tekst2,"Original games by Bryant Brownell.\nbryant.brownell@gmail.com");
+	strcpy(Tekst3,"Levelpack ");
+	strcat(Tekst3, LevelPackName);
+	strcat(Tekst3," was created\nby ");
+	strcat(Tekst3, LevelPackCreator);
+	strcat(Tekst3, ".");
 	while (GameState == GSCredits)
 	{
 		drawTexture(IMGTitleScreen,0,0,0);
@@ -40,10 +44,14 @@ void Credits()
 		draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
 		draw_rectangle(61*UI_WIDTH_SCALE,81*UI_HEIGHT_SCALE,259*UI_WIDTH_SCALE,159*UI_HEIGHT_SCALE);
 		set_multiply_color(color_white);
-		WriteText(font,Tekst,65*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,MenuTextColor);
+		WriteText(font,Tekst1,65*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,MenuTextColor);
+		WriteText(font,Tekst2,65*UI_WIDTH_SCALE,107*UI_HEIGHT_SCALE,MenuTextColor);
+		WriteText(font,Tekst3,65*UI_WIDTH_SCALE,132*UI_HEIGHT_SCALE,MenuTextColor);
         end_frame();
 	}
-	free(Tekst);
+	free(Tekst1);
+	free(Tekst2);
+	free(Tekst3);
 	free(LevelPackCreator);
 	CInput_Destroy(Input);
 }

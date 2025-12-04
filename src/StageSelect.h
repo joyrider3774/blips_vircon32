@@ -17,7 +17,7 @@ void StageSelect()
 		sleep(1);
 	if (SelectedLevel > 0)
 	{
-		CWorldParts_Load(WorldParts, SelectedLevel-1);
+		CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 	}
 	else
 		CWorldParts_RemoveAll(WorldParts);
@@ -78,7 +78,7 @@ void StageSelect()
 				if	(AskQuestion(Tekst))
 				{
 					SelectedLevel = UnlockedLevels;
-					CWorldParts_Load(WorldParts, SelectedLevel-1);
+					CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 					GameState = GSGame;
 				}
 				CInput_Reset(Input);
@@ -95,7 +95,7 @@ void StageSelect()
 				if (SelectedLevel < 1)
 					SelectedLevel = 1;
 				CAudio_PlaySound(Sounds[SND_SELECT],0);
-				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
         }
@@ -108,7 +108,7 @@ void StageSelect()
 				if (SelectedLevel > InstalledLevels)
 					SelectedLevel = InstalledLevels;
 				CAudio_PlaySound(Sounds[SND_SELECT],0);
-				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
         }
@@ -121,7 +121,7 @@ void StageSelect()
 				if (SelectedLevel < 1)
 					SelectedLevel = 1;
 				CAudio_PlaySound(Sounds[SND_SELECT],0);
-				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
         }
@@ -134,7 +134,7 @@ void StageSelect()
 				if (SelectedLevel > InstalledLevels)
 					SelectedLevel = InstalledLevels;
 				CAudio_PlaySound(Sounds[SND_SELECT],0);
-				CWorldParts_Load(WorldParts, SelectedLevel-1);
+				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
         }

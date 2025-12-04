@@ -12,6 +12,7 @@
 #include "CAudio.h"
 
 #define levelLocksSavePosition 100
+#define settingsSavePosition 50
 
 void UnLoadGraphics()
 {
@@ -59,6 +60,12 @@ void FindLevels()
 	InstalledLevels = 0;
 	if(strcmp(LevelPackName, "Bips") == 0)
 		InstalledLevels = 26;
+	if(strcmp(LevelPackName, "Bips Gold") == 0)
+		InstalledLevels = 9;
+	if(strcmp(LevelPackName, "Bips Gold 2 Players") == 0)
+		InstalledLevels = 9;
+	if(strcmp(LevelPackName, "Bips Platinum") == 0)
+		InstalledLevels = 25;
 }
 
 void WriteText(textfont* font, int* text, int x, int y, int color)
@@ -84,13 +91,36 @@ void loadFonts()
 	MonoFont = &Fontfont1_25;
 }
 
+void SaveSettingsData()
+{
+	if(card_is_connected())
+		if(card_is_empty() || card_signature_matches( &GameSignature ))
+		{
+			card_write_signature(&GameSignature);
+			card_write_data(&SelectedLevelPack, settingsSavePosition, sizeof (SelectedLevelPack));
+		}
+}
+
+void LoadSettingsData()
+{
+	InstalledLevelPacksCount=4;
+	SelectedLevelPack = 0;
+	if(card_is_connected())
+		if(card_signature_matches(&GameSignature))
+		{
+			card_read_data(&SelectedLevelPack, settingsSavePosition, sizeof (SelectedLevelPack));			
+		}
+	if ((SelectedLevelPack < 0) || (SelectedLevelPack >= InstalledLevelPacksCount))
+		SelectedLevelPack = 0;
+}
+
 void SaveUnlockData()
 {
 	if(card_is_connected())
 		if(card_is_empty() || card_signature_matches( &GameSignature ))
 		{
 			card_write_signature(&GameSignature);
-			card_write_data(&UnlockedLevels, levelLocksSavePosition, sizeof (UnlockedLevels));
+			card_write_data(&UnlockedLevels, levelLocksSavePosition + SelectedLevelPack, sizeof (UnlockedLevels));
 		}
 }
 
@@ -100,13 +130,16 @@ void LoadUnlockData()
 	if(card_is_connected())
 		if(card_signature_matches(&GameSignature))
 		{
-			card_read_data(&UnlockedLevels, levelLocksSavePosition, sizeof (UnlockedLevels));			
+			card_read_data(&UnlockedLevels, levelLocksSavePosition + SelectedLevelPack, sizeof (UnlockedLevels));			
 		}
+	if ((UnlockedLevels < 1) || (UnlockedLevels > InstalledLevels))
+		UnlockedLevels = 1;
 }
 
 bool AskQuestion(int *Msg)
 {
 	bool Result = false;
+	CAudio_PlaySound(Sounds[SND_SELECT],0);
 	CInput *Input = CInput_Create(InputDelay);
 	while(CInput_HasInput(Input))
 		end_frame();
@@ -134,6 +167,10 @@ bool AskQuestion(int *Msg)
 	while(CInput_HasInput(Input))
 		end_frame();
 	CInput_Destroy(Input);
+	if(Result)
+		CAudio_PlaySound(Sounds[SND_SELECT],0);
+	else
+		CAudio_PlaySound(Sounds[SND_BACK],0);
 	return Result;
 }
 
@@ -164,9 +201,11 @@ void PrintForm(int *msg)
 
 void SearchForLevelPacks()
 {
-	InstalledLevelPacksCount = 1;
+	InstalledLevelPacksCount = 4;
 	strcpy(&InstalledLevelPacks[0][0], "Bips");
-	SelectedLevelPack=0;
+	strcpy(&InstalledLevelPacks[1][0], "Bips Gold");
+	strcpy(&InstalledLevelPacks[2][0], "Bips Gold 2 Players");
+	strcpy(&InstalledLevelPacks[3][0], "Bips Platinum");
 	if (InstalledLevelPacksCount > 0)
 	{
 	 	strcpy(LevelPackName ,InstalledLevelPacks[SelectedLevelPack]);
@@ -177,14 +216,15 @@ void LoadGraphics()
 {
     IMGBackground = newTextureHorz(0,0,1,0,0,640,360,1.0,1.0);
 	IMGGrid = newTextureHorz(0,1,1,0,360,640,360,1.0,1.0);
-	IMGFloor = newTextureHorz(0,2,1,128,720,32,32,1.0,1.0);
-	IMGWall = newTextureHorz(0,3,1,160,720,32,32,1.0,1.0);
-	IMGBomb = newTextureHorz(0,4,1,0,720,32,32,1.0,1.0);
-	IMGDiamond = newTextureHorz(0,5,1,64,720,32,32,1.0,1.0);
-	IMGBox = newTextureHorz(0,6,1,32,720,32,32,1.0,1.0);
-	IMGEmpty = newTextureHorz(0,7,1,96,720,32,32,1.0,1.0);
-	IMGPlayer = newTextureHorz(0,8,16,0,752,16*32,32,1.0,1.0);
-	IMGExplosion = newTextureHorz(0,40,8,192,720,8*32,32,1.0,1.0);
+	IMGFloor = newTextureHorz(0,2,1,256,720,32,32,1.0,1.0);
+	IMGWall = newTextureHorz(0,3,2,288,720,2*32,32,1.0,1.0);
+	IMGBomb = newTextureHorz(0,6,1,0,720,32,32,1.0,1.0);
+	IMGDiamond = newTextureHorz(0,7,1,192,720,32,32,1.0,1.0);
+	IMGBox = newTextureHorz(0,8,5,32,720,5*32,32,1.0,1.0);
+	IMGEmpty = newTextureHorz(0,13,1,224,720,32,32,1.0,1.0);
+	IMGPlayer = newTextureHorz(0,14,16,0,752,16*32,32,1.0,1.0);
+	IMGPlayer2 = newTextureHorz(0,40,16,0,786,16*32,32,1.0,1.0);
+	IMGExplosion = newTextureHorz(0,60,8,352,720,8*32,32,1.0,1.0);
     IMGIntro1 = newTextureHorz(1,1,1,0,0,640,360,1.0,1.0);
 	IMGIntro2 = newTextureHorz(1,2,1,0,360,640,360,1.0,1.0);
 	IMGIntro3 = newTextureHorz(2,1,1,0,0,640,360,1.0,1.0);

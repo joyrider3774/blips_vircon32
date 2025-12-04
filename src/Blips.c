@@ -20,6 +20,7 @@ void main()
 	MenuTextColor = make_color_rgb(2,66,87);
 	setupLevels();
 	WorldParts = CWorldParts_Create();
+	LoadSettingsData();
 	SearchForLevelPacks();
 	LoadSounds();
 	FindLevels();

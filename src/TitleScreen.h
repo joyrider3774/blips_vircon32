@@ -26,11 +26,14 @@ void TitleScreen()
         {
             if(Selection==2)
                 if (InstalledLevelPacksCount > 0)
-                    if(SelectedLevelPack > 0)
-                    {
-                        SelectedLevelPack--;
-                        strcpy(LevelPackName,InstalledLevelPacks[SelectedLevelPack]);
-                    }
+                {
+                    CAudio_PlaySound(Sounds[SND_MENU],0);
+                    SelectedLevelPack--;
+                    if(SelectedLevelPack < 0)
+                        SelectedLevelPack = InstalledLevelPacksCount - 1;                   
+                    strcpy(LevelPackName,InstalledLevelPacks[SelectedLevelPack]);
+                    SaveSettingsData();                    
+                }
             CInput_Delay(Input);
         }
 		//BUT_RIGHT
@@ -38,11 +41,14 @@ void TitleScreen()
         {
             if (Selection==2)
                 if (InstalledLevelPacksCount > 0)
-                    if(SelectedLevelPack < InstalledLevelPacksCount-1)
-                    {
-                        SelectedLevelPack++;
-                        strcpy(LevelPackName,InstalledLevelPacks[SelectedLevelPack]);
-                    }
+                {
+                    CAudio_PlaySound(Sounds[SND_MENU],0);
+                    SelectedLevelPack++;
+                    if(SelectedLevelPack >= InstalledLevelPacksCount)
+                        SelectedLevelPack = 0;
+                    strcpy(LevelPackName,InstalledLevelPacks[SelectedLevelPack]);
+                    SaveSettingsData(); 
+                }
             CInput_Delay(Input);
         }
 		//BUT_DOWN 
@@ -92,6 +98,17 @@ void TitleScreen()
                             PrintForm(Tekst);
                             CInput_Reset(Input);
                         }
+                    }
+                    break;
+                case 2:
+                    if (InstalledLevelPacksCount > 0)
+                    {
+                        CAudio_PlaySound(Sounds[SND_MENU],0);
+                        SelectedLevelPack++;
+                        if(SelectedLevelPack >= InstalledLevelPacksCount)
+                            SelectedLevelPack = 0;
+                        strcpy(LevelPackName,InstalledLevelPacks[SelectedLevelPack]);
+                        SaveSettingsData(); 
                     }
                     break;
                 case 3:
