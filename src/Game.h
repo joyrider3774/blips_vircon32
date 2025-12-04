@@ -188,7 +188,7 @@ void Game()
 				if (AskQuestion("Too bad you died !\nDo you want to try again?\n\n(A) Try Again (X) Level Selector"))
 				{
 					CWorldParts_Load(WorldParts,SelectedLevelPack, SelectedLevel-1);					
-					}
+				}
 				else
 					GameState = GSStageSelect;
 

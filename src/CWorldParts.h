@@ -35,9 +35,10 @@ struct CWorldParts
 	CWorldPart*[NrOfRows*NrOfCols*2] Items;
 	CWorldPart*[NrOfRows * NrOfCols * 2] MoveAbleItems;
 	CWorldPart* Player,Player1,Player2;
+	int MinX, MinY, MaxX, MaxY;
 	int ActivePlayer;
-	int ItemCount, MoveAbleItemCount, ActivePlayerFlicker;	
-	bool DisableSorting;	
+	int ItemCount, MoveAbleItemCount, ActivePlayerFlicker;
+	bool DisableSorting;
 };
 
 CWorldParts *WorldParts;
@@ -1024,15 +1025,12 @@ CWorldParts* CWorldParts_Create()
 
 void CWorldParts_CenterVPOnPlayer(CWorldParts* WorldParts)
 {
-    int Teller=0,PlayerX=-1,PlayerY=-1;
-    for (Teller=0;Teller<WorldParts->ItemCount;Teller++)
-        if(WorldParts->Items[Teller]->Type == WorldParts->ActivePlayer)
-        {
-
-            PlayerX = WorldParts->Items[Teller]->PlayFieldX;
-            PlayerY = WorldParts->Items[Teller]->PlayFieldY;
-            break;
-        }
+    int PlayerX=-1,PlayerY=-1;
+	if(WorldParts->Player)
+	{
+		PlayerX = WorldParts->Player->PlayFieldX;
+       	PlayerY = WorldParts->Player->PlayFieldY;
+	}
     CViewPort_SetViewPort(WorldParts->ViewPort, PlayerX-10, PlayerY-6,PlayerX+10, PlayerY+6);
 }
 
@@ -1058,19 +1056,7 @@ void CWorldParts_SwitchPlayers(CWorldParts* WorldParts)
 
 void CWorldParts_LimitVPLevel(CWorldParts* WorldParts)
 {
-    int MinX = NrOfCols, MinY = NrOfRows, MaxX = -1, MaxY = -1, Teller = 0;
-	for (Teller = 0;Teller<WorldParts->ItemCount;Teller++)
-	{
-		if (WorldParts->Items[Teller]->PlayFieldX < MinX)
-			MinX = WorldParts->Items[Teller]->PlayFieldX;
-		if (WorldParts->Items[Teller]->PlayFieldY < MinY)
-			MinY = WorldParts->Items[Teller]->PlayFieldY;
-		if (WorldParts->Items[Teller]->PlayFieldX > MaxX)
-			MaxX = WorldParts->Items[Teller]->PlayFieldX;
-		if (WorldParts->Items[Teller]->PlayFieldY > MaxY)
-            MaxY = WorldParts->Items[Teller]->PlayFieldY;
-    }
-    CViewPort_SetVPLimit(WorldParts->ViewPort, MinX,MinY,MaxX,MaxY);
+    CViewPort_SetVPLimit(WorldParts->ViewPort, WorldParts->MinX,WorldParts->MinY,WorldParts->MaxX,WorldParts->MaxY);
     CWorldParts_CenterVPOnPlayer(WorldParts);
 }
 
@@ -1137,9 +1123,16 @@ void CWorldParts_Remove_Type(CWorldParts* WorldParts, int PlayFieldXin,int PlayF
 
 void CWorldParts_Load(CWorldParts* WorldParts, int LevelPackNr, int Level)
 {
+	//end frame before loading and after loading 
+	//to not hang the current frame / cpu
+	end_frame();
 	int X,Y,Type;
 	CWorldParts_RemoveAll(WorldParts);
 	WorldParts->DisableSorting = true;
+	WorldParts->MinX = NrOfCols;
+	WorldParts->MinY = NrOfRows;
+	WorldParts->MaxX = -1;
+	WorldParts->MaxY = -1;
 	for(int z = 0; z < 50*50*2; z+=3)
 	{
 		Type = Levels[LevelPackNr][Level][z];
@@ -1148,6 +1141,14 @@ void CWorldParts_Load(CWorldParts* WorldParts, int LevelPackNr, int Level)
 		//will always happen at the end of the real data in the level
 		if ((Type == 0) && ((X == 0) && (Y ==0)))
 			break;
+		if (X < WorldParts->MinX)
+			WorldParts->MinX = X;
+		if (Y < WorldParts->MinY)
+			WorldParts->MinY = Y;
+		if (X > WorldParts->MaxX)
+			WorldParts->MaxX = X;
+		if (Y > WorldParts->MaxY)
+            WorldParts->MaxY = Y;
 		CWorldParts_Add(WorldParts, CWorldPart_Create(X,Y,Type));
 		
 	}
@@ -1160,6 +1161,7 @@ void CWorldParts_Load(CWorldParts* WorldParts, int LevelPackNr, int Level)
 	CWorldParts_Sort(WorldParts);
 	CWorldParts_LimitVPLevel(WorldParts);
 	CWorldParts_CenterVPOnPlayer(WorldParts);
+	end_frame();
 }
 
 void CWorldParts_Move(CWorldParts* WorldParts)
