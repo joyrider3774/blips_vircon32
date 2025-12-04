@@ -73,7 +73,7 @@ void TitleScreen()
             CInput_Delay(Input);
         }
 		//BUT_A
-        if(Input->JoystickHeld[BUT_A] || Input->JoystickHeld[BUT_START])
+        if(CInput_Ready(Input) && (Input->JoystickHeld[BUT_A] || Input->JoystickHeld[BUT_START]))
         {
             switch(Selection)
             {
@@ -116,6 +116,7 @@ void TitleScreen()
                     CAudio_PlaySound(Sounds[SND_SELECT],0);
                     break;
             }
+            CInput_Delay(Input);
         }
 		set_multiply_color(MenuBoxColor);
 		draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
