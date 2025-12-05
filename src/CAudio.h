@@ -69,6 +69,12 @@ int* filenameToAudio(int* FileName)
 		*result = 7;
 	}
 
+	if (strcmp(FileName, "move") == 0)
+	{
+		result = (int*) malloc(sizeof(int));
+		*result = 8;
+	}
+
 	
 	return result;
 }

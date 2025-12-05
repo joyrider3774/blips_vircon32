@@ -39,6 +39,7 @@ wav2vircon assets\sound\menu.wav -o obj\menu.vsnd || goto :failed
 wav2vircon assets\sound\select.wav -o obj\select.vsnd || goto :failed
 wav2vircon assets\sound\stageend.wav -o obj\stageend.vsnd || goto :failed
 wav2vircon assets\sound\menuback.wav -o obj\menuback.vsnd || goto :failed
+wav2vircon assets\sound\move.wav -o obj\move.vsnd || goto :failed
 
 echo.
 echo Pack the ROM

@@ -776,6 +776,7 @@ void CWorldPart_MoveTo(CWorldPart* WorldPart,  int PlayFieldXin, int PlayFieldYi
 					WorldPart->AnimBase = 12;
 				}
 				WorldPart->IsMoving = true;
+				CAudio_PlaySound(Sounds[SND_MOVE],0);
 			}
 			else
 			{
@@ -893,6 +894,7 @@ void CWorldPart_MoveTo(CWorldPart* WorldPart,  int PlayFieldXin, int PlayFieldYi
 					WorldPart->AnimBase = 12;
 				}
 				WorldPart->IsMoving = true;
+				CAudio_PlaySound(Sounds[SND_MOVE],0);
 			}
 			else
 			{
