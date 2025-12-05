@@ -26,6 +26,7 @@ void UnLoadGraphics()
 	freeTexture(IMGDiamond);
 	freeTexture(IMGBomb);
 	freeTexture(IMGTitleScreen);
+	freeTexture(IMGInstructions);
 	freeTexture(IMGIntro1);
 	freeTexture(IMGIntro2);
 	freeTexture(IMGIntro3);
@@ -148,7 +149,7 @@ bool AskQuestion(int *Msg)
 	draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
 	set_multiply_color(MenuBoxBorderColor);
 	draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
-	draw_rectangle(61*UI_WIDTH_SCALE,81*UI_HEIGHT_SCALE,259*UI_WIDTH_SCALE,159*UI_HEIGHT_SCALE);
+	draw_rectangle(62*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,258*UI_WIDTH_SCALE,158*UI_HEIGHT_SCALE);
 	set_multiply_color(color_white);
 	WriteText(font,Msg,65*UI_WIDTH_SCALE,83*UI_HEIGHT_SCALE,MenuTextColor);
 	end_frame();
@@ -184,7 +185,7 @@ void PrintForm(int *msg)
 	draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
 	set_multiply_color(MenuBoxBorderColor);
 	draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
-	draw_rectangle(61*UI_WIDTH_SCALE,81*UI_HEIGHT_SCALE,259*UI_WIDTH_SCALE,159*UI_HEIGHT_SCALE);
+	draw_rectangle(62*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,258*UI_WIDTH_SCALE,158*UI_HEIGHT_SCALE);
 	set_multiply_color(color_white);
 	WriteText(font,msg,65*UI_WIDTH_SCALE,83*UI_HEIGHT_SCALE,MenuTextColor);
     end_frame();
@@ -230,6 +231,7 @@ void LoadGraphics()
 	IMGIntro2 = newTextureHorz(1,2,1,0,360,640,360,1.0,1.0);
 	IMGIntro3 = newTextureHorz(2,1,1,0,0,640,360,1.0,1.0);
 	IMGTitleScreen = newTextureHorz(2,2,1,0,360,640,360,1.0,1.0);
+	IMGInstructions = newTextureHorz(3,1,1,0,0,640,360,1.0,1.0);
 }
 
 

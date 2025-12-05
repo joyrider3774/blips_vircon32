@@ -4,7 +4,7 @@
 #include "video.h"
 #include "../libs/TextFonts/textfont.h"
 
-#define font_13_texture_id 3
+#define font_13_texture_id 4
 #define font_13_region_id 0
 
 textfont Fontfont_13;

@@ -10,6 +10,7 @@
 #include "Levels.h"
 #include "Game.h"
 #include "CAudio.h"
+#include "Instructions.h"
 
 void main()
 {
@@ -30,6 +31,9 @@ void main()
 	{
 		switch(GameState)
 		{
+			case GSInstructions:
+				Instructions();
+				break;
 		 	case GSIntro :
 		 		Intro();
 		 		break;

@@ -21,6 +21,7 @@ REM Fpdefault skin
 png2vircon assets\graphics\blips_1.png -o obj\blips_1.vtex || goto :failed
 png2vircon assets\graphics\blips_2.png -o obj\blips_2.vtex || goto :failed
 png2vircon assets\graphics\blips_3.png -o obj\blips_3.vtex || goto :failed
+png2vircon assets\graphics\blips_4.png -o obj\blips_4.vtex || goto :failed
 png2vircon src\fonts\font_13.png -o obj\font_13.vtex || goto :failed
 png2vircon src\fonts\font1_25.png -o obj\font1_25.vtex || goto :failed
 png2vircon src\fonts\font2_30.png -o obj\font2_30.vtex || goto :failed

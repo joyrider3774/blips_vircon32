@@ -42,7 +42,7 @@ void Credits()
 		draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
 		set_multiply_color(MenuBoxBorderColor);
 		draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
-		draw_rectangle(61*UI_WIDTH_SCALE,81*UI_HEIGHT_SCALE,259*UI_WIDTH_SCALE,159*UI_HEIGHT_SCALE);
+		draw_rectangle(62*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,258*UI_WIDTH_SCALE,158*UI_HEIGHT_SCALE);
 		set_multiply_color(color_white);
 		WriteText(font,Tekst1,65*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,MenuTextColor);
 		WriteText(font,Tekst2,65*UI_WIDTH_SCALE,107*UI_HEIGHT_SCALE,MenuTextColor);

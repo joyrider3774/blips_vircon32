@@ -17,6 +17,7 @@
 #define GSGame 3 
 #define GSStageClear 4 
 #define GSStageSelect 5 
+#define GSInstructions 6
 
 #define NrOfRows 50
 #define NrOfCols 50

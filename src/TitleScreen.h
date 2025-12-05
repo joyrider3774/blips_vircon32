@@ -54,7 +54,7 @@ void TitleScreen()
 		//BUT_DOWN 
         if(CInput_Ready(Input) && (Input->JoystickHeld[BUT_DOWN]))
         {
-            if (Selection < 3)
+            if (Selection < 4)
             {
                 Selection++;
                 CAudio_PlaySound(Sounds[SND_MENU],0);
@@ -112,6 +112,10 @@ void TitleScreen()
                     }
                     break;
                 case 3:
+                    GameState=GSInstructions;
+                    CAudio_PlaySound(Sounds[SND_SELECT],0);
+                    break;
+                case 4:
                     GameState=GSCredits;
                     CAudio_PlaySound(Sounds[SND_SELECT],0);
                     break;
@@ -119,14 +123,14 @@ void TitleScreen()
             CInput_Delay(Input);
         }
 		set_multiply_color(MenuBoxColor);
-		draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
+		draw_filled_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,170*UI_HEIGHT_SCALE);
 		set_multiply_color(MenuBoxBorderColor);
-		draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,160*UI_HEIGHT_SCALE);
-		draw_rectangle(61*UI_WIDTH_SCALE,81*UI_HEIGHT_SCALE,259*UI_WIDTH_SCALE,159*UI_HEIGHT_SCALE);
+		draw_rectangle(60*UI_WIDTH_SCALE,80*UI_HEIGHT_SCALE,260*UI_WIDTH_SCALE,170*UI_HEIGHT_SCALE);
+		draw_rectangle(62*UI_WIDTH_SCALE,82*UI_HEIGHT_SCALE,258*UI_WIDTH_SCALE,168*UI_HEIGHT_SCALE);
 		set_multiply_color(color_white);
 		strcpy(Tekst,"Play Selected LevelPack\n<");
 		strcat(Tekst,LevelPackName);
-		strcat(Tekst,">\nCredits");
+		strcat(Tekst,">\nInstructions\nCredits");
 		BigFont->line_separation = 10;
 		WriteText(BigFont,Tekst,90*UI_WIDTH_SCALE,90*UI_HEIGHT_SCALE,MenuTextColor);
 		if (Selection > 1)
