@@ -94,7 +94,7 @@ void StageSelect()
 				SelectedLevel -= 5;
 				if (SelectedLevel < 1)
 					SelectedLevel = 1;
-				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CAudio_PlaySound(Sounds[SND_MENU],0);
 				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
@@ -107,7 +107,7 @@ void StageSelect()
 				SelectedLevel +=5;
 				if (SelectedLevel > InstalledLevels)
 					SelectedLevel = InstalledLevels;
-				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CAudio_PlaySound(Sounds[SND_MENU],0);
 				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
@@ -120,7 +120,7 @@ void StageSelect()
 				SelectedLevel--;
 				if (SelectedLevel < 1)
 					SelectedLevel = 1;
-				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CAudio_PlaySound(Sounds[SND_MENU],0);
 				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
@@ -133,7 +133,7 @@ void StageSelect()
 				SelectedLevel++;
 				if (SelectedLevel > InstalledLevels)
 					SelectedLevel = InstalledLevels;
-				CAudio_PlaySound(Sounds[SND_SELECT],0);
+				CAudio_PlaySound(Sounds[SND_MENU],0);
 				CWorldParts_Load(WorldParts, SelectedLevelPack, SelectedLevel-1);
 				CInput_Delay(Input);
 			}
