@@ -45,7 +45,7 @@ wav2vircon assets\sound\move.wav -o obj\move.vsnd || goto :failed
 echo.
 echo Pack the ROM
 echo --------------------------
-packrom Blips.xml -o "bin\Blips.v32" || goto :failed
+packrom Blips.xml -o "bin\Blips2.v32" || goto :failed
 goto :succeeded
 
 :failed
